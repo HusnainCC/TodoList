@@ -1,4 +1,5 @@
 ﻿@using TodoList.Models
+@using Microsoft.AspNetCore.Components.Web
 
 @page "/todo"
 @rendermode InteractiveServer
@@ -11,15 +12,18 @@
     <ul class="todo-list">
         @foreach (var todo in todos)
         {
-                <li>
+                <li class="@(todo.IsDone ? "done" : "")">
                     <input type="checkbox" @bind="todo.IsDone" />
-                    <input type="text" @bind="todo.Title" />
+                    <input type="text" @bind="todo.Title" disabled="@todo.IsDone" />
+                    <button class="delete-btn" @onclick="() => RemoveTodo(todo)">❌</button>
                 </li>
         }
     </ul>
 
     <div class="todo-input">
-        <input placeholder="Something todo" @bind="newTodo" />
+        <input placeholder="Something todo"
+               @bind="newTodo"
+               @onkeydown="HandleEnterKey" />
         <button @onclick="AddTodo">Add todo</button>
     </div>
 </div>
@@ -34,6 +38,19 @@
         {
             todos.Add(new TodoItem { Title = newTodo });
             newTodo = string.Empty;
+        }
+    }
+
+    private void RemoveTodo(TodoItem item)
+    {
+        todos.Remove(item);
+    }
+
+    private void HandleEnterKey(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            AddTodo();
         }
     }
 }
