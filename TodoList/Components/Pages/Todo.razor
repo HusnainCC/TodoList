@@ -15,13 +15,13 @@
                 <li class="@(todo.IsDone ? "done" : "")">
                     <input type="checkbox" @bind="todo.IsDone" />
                     <input type="text" @bind="todo.Title" disabled="@todo.IsDone" />
-                    <button class="delete-btn" @onclick="() => RemoveTodo(todo)">❌</button>
+                    <button class="delete-btn" @onclick="() => RemoveTodo(todo)">-</button>
                 </li>
         }
     </ul>
 
     <div class="todo-input">
-        <input placeholder="Something todo"
+        <input placeholder="What ToDo"
                @bind="newTodo"
                @onkeydown="HandleEnterKey" />
         <button @onclick="AddTodo">Add todo</button>
